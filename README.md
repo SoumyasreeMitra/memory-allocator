@@ -24,6 +24,7 @@ The goal of this project is to demonstrate fundamental concepts in:
 - Metadata tracking for each memory block
 - Reuse of freed memory blocks
 - Test program to validate allocator functionality
+- Block splitting to reduce internal memory fragmentation
 
 ---
 

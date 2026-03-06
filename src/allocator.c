@@ -43,6 +43,21 @@ block* request_space(block* last, size_t size) {
 
     return b;
 }
+// Split a block if it is larger than requested size
+void split_block(block* fitting_block, size_t size) {
+
+    block* new_block;
+
+    new_block = (void*)((void*)fitting_block + size + BLOCK_SIZE);
+
+    new_block->size = fitting_block->size - size - BLOCK_SIZE;
+    new_block->free = 1;
+    new_block->next = fitting_block->next;
+
+    fitting_block->size = size;
+    fitting_block->next = new_block;
+
+}
 
 /* Allocate memory */
 void* my_malloc(size_t size) {
@@ -74,7 +89,10 @@ void* my_malloc(size_t size) {
 
         } else {
 
-            b->free = 0;
+            if ((b->size - size) >= (BLOCK_SIZE + 4))
+    split_block(b, size);
+
+b->free = 0;;
 
         }
     }
